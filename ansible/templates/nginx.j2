@@ -1,0 +1,57 @@
+server {
+    listen 80;
+    server_name {{ domain_name }} www.{{ domain_name }};
+    
+    # Root directory and index file
+    root {{ app_dir }}/public;
+    index index.html;
+    
+    # Proxy Next.js server
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+    
+    # Static files
+    location /_next/static {
+        alias {{ app_dir }}/.next/static;
+        expires 365d;
+        access_log off;
+    }
+    
+    # Public files
+    location /public {
+        alias {{ app_dir }}/public;
+        expires 30d;
+        access_log off;
+    }
+    
+    # Security: Deny access to hidden files
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+    
+    # Security: Deny access to Node.js files
+    location ~ (^|/)\.(git|env|env\.|env-) {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+    
+    # Error pages
+    error_page 404 /404.html;
+    error_page 500 502 503 504 /50x.html;
+    
+    # Logs
+    access_log /var/log/nginx/{{ app_name }}.access.log;
+    error_log /var/log/nginx/{{ app_name }}.error.log;
+}

@@ -1,0 +1,124 @@
+---
+- name: Configure OSEE Kenya Server
+  hosts: web
+  become: yes
+  vars:
+    app_name: osee-kenya
+    app_dir: /var/www/osee-kenya
+    node_version: 20.x
+    domain_name: osee-kenya.org
+    
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+        
+    - name: Install required packages
+      apt:
+        name:
+          - nginx
+          - git
+          - curl
+          - software-properties-common
+          - certbot
+          - python3-certbot-nginx
+        state: present
+        
+    - name: Add NodeSource repository
+      shell: |
+        curl -fsSL https://deb.nodesource.com/setup_{{ node_version }} | bash -
+      args:
+        creates: /etc/apt/sources.list.d/nodesource.list
+        
+    - name: Install Node.js
+      apt:
+        name: nodejs
+        state: present
+        update_cache: yes
+        
+    - name: Create app directory
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+        
+    - name: Clone repository
+      git:
+        repo: https://github.com/yourusername/open-source-se.git
+        dest: "{{ app_dir }}"
+        version: main
+      become_user: www-data
+      
+    - name: Install dependencies
+      npm:
+        path: "{{ app_dir }}"
+        ci: yes
+      become_user: www-data
+      
+    - name: Create .env.local file
+      template:
+        src: templates/env.j2
+        dest: "{{ app_dir }}/.env.local"
+        owner: www-data
+        group: www-data
+        mode: '0600'
+        
+    - name: Build application
+      command: npm run build
+      args:
+        chdir: "{{ app_dir }}"
+      become_user: www-data
+      
+    - name: Copy systemd service file
+      template:
+        src: templates/systemd.j2
+        dest: /etc/systemd/system/{{ app_name }}.service
+        owner: root
+        group: root
+        mode: '0644'
+        
+    - name: Enable and start service
+      systemd:
+        name: "{{ app_name }}"
+        enabled: yes
+        state: started
+        daemon_reload: yes
+        
+    - name: Copy Nginx configuration
+      template:
+        src: templates/nginx.j2
+        dest: /etc/nginx/sites-available/{{ app_name }}
+        owner: root
+        group: root
+        mode: '0644'
+        
+    - name: Enable Nginx site
+      file:
+        src: /etc/nginx/sites-available/{{ app_name }}
+        dest: /etc/nginx/sites-enabled/{{ app_name }}
+        state: link
+        
+    - name: Remove default Nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: Restart Nginx
+        
+    - name: Obtain SSL certificate
+      command: certbot --nginx -d {{ domain_name }} -d www.{{ domain_name }} --non-interactive --agree-tos --email admin@{{ domain_name }} --redirect
+      args:
+        creates: /etc/letsencrypt/live/{{ domain_name }}/fullchain.pem
+        
+  handlers:
+    - name: Restart Nginx
+      systemd:
+        name: nginx
+        state: restarted
+        
+    - name: Restart application
+      systemd:
+        name: "{{ app_name }}"
+        state: restarted

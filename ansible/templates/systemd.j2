@@ -1,0 +1,20 @@
+[Unit]
+Description=Open Source Economic Empowerment Ecosystem
+Documentation=https://github.com/yourusername/open-source-se
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory={{ app_dir }}
+ExecStart=/usr/bin/npm start
+Restart=on-failure
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier={{ app_name }}
+Environment=NODE_ENV=production
+Environment=PORT=3000
+
+[Install]
+WantedBy=multi-user.target

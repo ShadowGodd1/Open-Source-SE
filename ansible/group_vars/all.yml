@@ -1,0 +1,27 @@
+---
+# Application variables
+app_name: osee-kenya
+app_dir: /var/www/osee-kenya
+domain_name: osee-kenya.org
+
+# Database variables
+database_url: postgresql://postgres:password@db1:5432/osee_kenya
+
+# Authentication variables
+nextauth_secret: your-nextauth-secret
+
+# Africa's Talking API variables
+africas_talking_api_key: your-api-key
+africas_talking_username: your-username
+africas_talking_shortcode: your-shortcode
+
+# M-Pesa API variables
+mpesa_consumer_key: your-consumer-key
+mpesa_consumer_secret: your-consumer-secret
+mpesa_passkey: your-passkey
+mpesa_shortcode: your-shortcode
+
+# Supabase variables
+supabase_url: your-supabase-url
+supabase_anon_key: your-supabase-anon-key
+supabase_service_role_key: your-supabase-service-role-key
