@@ -1,5 +1,8 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
+import ProtectedRoute from '@/components/auth/protected-route';
 
 export default function CooperativePage() {
   // Sample cooperatives
@@ -34,6 +37,7 @@ export default function CooperativePage() {
   ];
 
   return (
+    <ProtectedRoute>
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <header className="bg-white dark:bg-gray-800 shadow">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
@@ -41,7 +45,7 @@ export default function CooperativePage() {
             Digital Cooperative Management
           </h1>
           <Link
-            href="#"
+            href="/modules/cooperative/create"
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             Create Cooperative
@@ -143,7 +147,7 @@ export default function CooperativePage() {
               <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                 {cooperatives.map((coop) => (
                   <li key={coop.id}>
-                    <Link href="#" className="block hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <Link href={`/modules/cooperative/${coop.id}`} className="block hover:bg-gray-50 dark:hover:bg-gray-700">
                       <div className="px-4 py-4 sm:px-6">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
@@ -199,5 +203,6 @@ export default function CooperativePage() {
         </div>
       </main>
     </div>
+    </ProtectedRoute>
   );
 }

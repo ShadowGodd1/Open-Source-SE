@@ -1,5 +1,8 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
+import ProtectedRoute from '@/components/auth/protected-route';
 
 export default function JobMatchingPage() {
   // Sample job recommendations
@@ -68,6 +71,7 @@ export default function JobMatchingPage() {
   ];
 
   return (
+    <ProtectedRoute>
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <header className="bg-white dark:bg-gray-800 shadow">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -169,6 +173,7 @@ export default function JobMatchingPage() {
                 <button
                   type="button"
                   className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  onClick={() => window.location.href = '/modules/job-matching/profile'}
                 >
                   Complete Profile
                 </button>
@@ -196,7 +201,7 @@ export default function JobMatchingPage() {
                         </div>
                         <div className="ml-2 flex-shrink-0 flex">
                           <Link
-                            href="#"
+                            href={`/modules/job-matching/jobs/${job.id}`}
                             className="px-3 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
                           >
                             Apply
@@ -241,7 +246,7 @@ export default function JobMatchingPage() {
               </ul>
               <div className="px-4 py-3 bg-gray-50 dark:bg-gray-700 text-center sm:px-6">
                 <Link
-                  href="#"
+                  href="/modules/job-matching/jobs"
                   className="text-sm font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
                 >
                   View all job recommendations →
@@ -372,5 +377,6 @@ export default function JobMatchingPage() {
         </div>
       </main>
     </div>
+    </ProtectedRoute>
   );
 }
