@@ -1,8 +1,12 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
+import ProtectedRoute from '@/components/auth/protected-route';
 
 export default function MicrofinancePage() {
   return (
+    <ProtectedRoute>
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <header className="bg-white dark:bg-gray-800 shadow">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -24,7 +28,7 @@ export default function MicrofinancePage() {
                       Create and manage digital chamas (savings groups) with transparent governance and automated record-keeping.
                     </p>
                     <div className="mt-4">
-                      <Link href="#" className="text-sm font-medium text-blue-600 hover:text-blue-500">
+                      <Link href="/modules/microfinance/chama/create" className="text-sm font-medium text-blue-600 hover:text-blue-500">
                         Create a Chama →
                       </Link>
                     </div>
@@ -39,7 +43,7 @@ export default function MicrofinancePage() {
                       Lend and borrow directly with other users with customizable interest rates and repayment terms.
                     </p>
                     <div className="mt-4">
-                      <Link href="#" className="text-sm font-medium text-blue-600 hover:text-blue-500">
+                      <Link href="/modules/microfinance/loans" className="text-sm font-medium text-blue-600 hover:text-blue-500">
                         Browse Loan Listings →
                       </Link>
                     </div>
@@ -54,7 +58,7 @@ export default function MicrofinancePage() {
                       Participate in revolving funds (table banking) with your community or create your own savings group.
                     </p>
                     <div className="mt-4">
-                      <Link href="#" className="text-sm font-medium text-blue-600 hover:text-blue-500">
+                      <Link href="/modules/microfinance/savings" className="text-sm font-medium text-blue-600 hover:text-blue-500">
                         Join a Savings Group →
                       </Link>
                     </div>
@@ -69,7 +73,7 @@ export default function MicrofinancePage() {
                       Build a credit history through your activities on the platform, even if you're unbanked.
                     </p>
                     <div className="mt-4">
-                      <Link href="#" className="text-sm font-medium text-blue-600 hover:text-blue-500">
+                      <Link href="/modules/microfinance/credit" className="text-sm font-medium text-blue-600 hover:text-blue-500">
                         View Your Credit Score →
                       </Link>
                     </div>
@@ -84,7 +88,7 @@ export default function MicrofinancePage() {
                       Access fair and transparent dispute resolution mechanisms for financial disagreements.
                     </p>
                     <div className="mt-4">
-                      <Link href="#" className="text-sm font-medium text-blue-600 hover:text-blue-500">
+                      <Link href="/modules/microfinance/disputes" className="text-sm font-medium text-blue-600 hover:text-blue-500">
                         Learn About Dispute Resolution →
                       </Link>
                     </div>
@@ -99,7 +103,7 @@ export default function MicrofinancePage() {
                       Access educational resources about saving, borrowing, and managing finances responsibly.
                     </p>
                     <div className="mt-4">
-                      <Link href="#" className="text-sm font-medium text-blue-600 hover:text-blue-500">
+                      <Link href="/modules/financial-literacy" className="text-sm font-medium text-blue-600 hover:text-blue-500">
                         Browse Learning Resources →
                       </Link>
                     </div>
@@ -120,5 +124,6 @@ export default function MicrofinancePage() {
         </div>
       </main>
     </div>
+    </ProtectedRoute>
   );
 }

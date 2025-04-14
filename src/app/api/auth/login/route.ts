@@ -1,23 +1,47 @@
 import { NextResponse } from 'next/server';
+import { loginWithEmailPassword, loginWithPhonePassword } from '@/lib/auth';
+import { z } from 'zod';
+
+// Define validation schema
+const loginSchema = z.object({
+  identifier: z.string().min(1, 'Email or phone number is required'),
+  password: z.string().min(1, 'Password is required'),
+});
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email, password } = body;
 
-    // This is a mock implementation
-    // In a real application, you would validate the credentials against a database
-    if (email === 'user@example.com' && password === 'password') {
+    // Validate request body
+    const result = loginSchema.safeParse(body);
+    if (!result.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Validation error',
+          errors: result.error.errors,
+        },
+        { status: 400 }
+      );
+    }
+
+    const { identifier, password } = result.data;
+
+    // Determine if identifier is email or phone
+    const isEmail = identifier.includes('@');
+
+    // Call appropriate login function
+    const loginResult = isEmail
+      ? await loginWithEmailPassword(identifier, password)
+      : await loginWithPhonePassword(identifier, password);
+
+    if (loginResult.success) {
       return NextResponse.json(
         {
           success: true,
           message: 'Login successful',
-          user: {
-            id: '1',
-            name: 'Test User',
-            email: 'user@example.com',
-          },
-          token: 'mock-jwt-token',
+          user: loginResult.user,
+          token: loginResult.token,
         },
         { status: 200 }
       );
@@ -25,7 +49,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Invalid credentials',
+          message: loginResult.message || 'Invalid credentials',
         },
         { status: 401 }
       );

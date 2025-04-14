@@ -1,7 +1,11 @@
-import React from 'react';
+"use client";
+
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import ProtectedRoute from '@/components/auth/protected-route';
 
 export default function FreelancePage() {
+  const [isLoading, setIsLoading] = useState(false);
   // Sample job listings
   const jobListings = [
     {
@@ -46,7 +50,17 @@ export default function FreelancePage() {
     },
   ];
 
+  useEffect(() => {
+    // In a real application, we would fetch job listings from an API
+    setIsLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+  }, []);
+
   return (
+    <ProtectedRoute>
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <header className="bg-white dark:bg-gray-800 shadow">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
@@ -54,7 +68,7 @@ export default function FreelancePage() {
             Freelance & Gig Marketplace
           </h1>
           <Link
-            href="#"
+            href="/modules/freelance/post-job"
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             Post a Job
@@ -143,6 +157,11 @@ export default function FreelancePage() {
           {/* Job Listings */}
           <div className="px-4 sm:px-0">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Recent Job Listings</h2>
+            {isLoading ? (
+              <div className="flex justify-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+              </div>
+            ) : (
             <div className="space-y-4">
               {jobListings.map((job) => (
                 <div key={job.id} className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">
@@ -184,7 +203,7 @@ export default function FreelancePage() {
                         </div>
                       </div>
                       <Link
-                        href="#"
+                        href={`/modules/freelance/jobs/${job.id}`}
                         className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 dark:text-blue-100 dark:bg-blue-900 dark:hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                       >
                         Apply Now
@@ -204,6 +223,7 @@ export default function FreelancePage() {
                 </div>
               ))}
             </div>
+            )}
           </div>
 
           <div className="mt-8 text-center">
@@ -217,5 +237,6 @@ export default function FreelancePage() {
         </div>
       </main>
     </div>
+    </ProtectedRoute>
   );
 }
