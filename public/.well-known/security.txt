@@ -1,0 +1,7 @@
+# Security Policy for Open Source Economic Empowerment Ecosystem
+Contact: mailto:security@osee-kenya.org
+Expires: 2025-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://osee-kenya.vercel.app/.well-known/security.txt
+Policy: https://osee-kenya.vercel.app/security-policy
+Hiring: https://osee-kenya.vercel.app/careers

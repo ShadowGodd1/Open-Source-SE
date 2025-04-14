@@ -1,36 +1,145 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Open Source Economic Empowerment Ecosystem Suite for Kenya
+
+A comprehensive open-source digital platform designed to economically empower underserved communities across Kenya.
+
+## Vision
+
+To create a unified, accessible digital ecosystem that empowers Kenyans across all economic backgrounds to participate meaningfully in the digital economy, build financial resilience, and create sustainable livelihoods while fostering community collaboration.
+
+## Core Modules
+
+- **Authentication & Profile System**: Universal digital identity with tiered KYC levels
+- **Freelance & Gig Marketplace**: Job posting and matching for formal and informal work
+- **Peer-to-Peer Microfinance Platform**: Digital chama management and P2P lending
+- **Digital Cooperative Management**: Cooperative formation and governance tools
+- **Job-Matching Portal**: AI-driven skills matching algorithm
+- **Personal Financial Literacy Application**: Gamified learning modules
+- **Local Resource Exchange Marketplace**: Community-based sharing economy
+
+## Technical Architecture
+
+- **Frontend**: Next.js, React, Tailwind CSS, Progressive Web App (PWA)
+- **Backend**: Node.js, Express, GraphQL
+- **Database**: PostgreSQL, MongoDB, Redis
+- **Authentication**: OAuth 2.0, JWT
+- **Interfaces**: Web, Mobile (React Native), USSD, SMS
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18.x or later
+- npm or yarn
+- Git
+
+### Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/open-source-se.git
+   cd open-source-se
+   ```
+
+2. Install dependencies:
+   ```
+   npm install
+   # or
+   yarn install
+   ```
+
+3. Set up environment variables:
+   ```
+   cp .env.example .env.local
+   ```
+   Edit `.env.local` with your configuration.
+
+4. Run the development server:
+   ```
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+## Deployment
+
+### Vercel Deployment (Recommended)
+
+1. Push your code to a GitHub repository
+2. Import the project in Vercel
+3. Set the required environment variables
+4. Deploy
+
+Alternatively, use the Vercel CLI:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Install Vercel CLI
+npm install -g vercel
+
+# Login to Vercel
+vercel login
+
+# Deploy to staging
+vercel
+
+# Deploy to production
+vercel --prod
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Docker Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Build and run the Docker container:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Build the Docker image
+npm run docker:build
+# or manually
+docker build -t osee-kenya .
 
-## Learn More
+# Run the container
+npm run docker:run
+# or manually
+docker run -p 3000:3000 --env-file .env.local osee-kenya
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Docker Compose (Development with Services)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+For local development with all services:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run docker:compose
+# or manually
+docker-compose up
+```
 
-## Deploy on Vercel
+### Automated Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Use our deployment script:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+# Deploy to development
+npm run deploy:dev
+
+# Deploy to staging
+npm run deploy:staging
+
+# Deploy to production
+npm run deploy:prod
+```
+
+For more detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+## Contributing
+
+We welcome contributions from developers, designers, and domain experts. Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- All contributors and community members
+- Organizations supporting economic empowerment in Kenya
+- Open source projects that make this work possible

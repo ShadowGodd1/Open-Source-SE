@@ -3,25 +3,38 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy:dev": "node deploy.js development",
+    "deploy:staging": "node deploy.js staging",
+    "deploy:prod": "node deploy.js production",
+    "docker:build": "docker build -t osee-kenya .",
+    "docker:run": "docker run -p 3000:3000 --env-file .env.local osee-kenya",
+    "docker:compose": "docker-compose up",
+    "export": "next build && next export"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.39.7",
+    "africastalking": "^0.6.2",
+    "bcryptjs": "^2.4.3",
+    "crypto": "^1.0.1",
+    "next": "15.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.3.0"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.3.0",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^4",
+    "typescript": "5.8.3"
   }
 }
