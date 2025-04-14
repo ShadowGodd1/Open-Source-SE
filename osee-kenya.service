@@ -1,0 +1,22 @@
+[Unit]
+Description=Open Source Economic Empowerment Ecosystem
+Documentation=https://github.com/yourusername/open-source-se
+After=network.target
+
+[Service]
+Type=simple
+User=nodejs
+WorkingDirectory=/var/www/osee-kenya
+ExecStart=/usr/bin/npm start
+Restart=on-failure
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=osee-kenya
+Environment=NODE_ENV=production
+Environment=PORT=3000
+# Add other environment variables here or use EnvironmentFile
+# EnvironmentFile=/var/www/osee-kenya/.env
+
+[Install]
+WantedBy=multi-user.target
